@@ -1,0 +1,70 @@
+def task1(in_list):
+    return list(set(in_list))
+
+def task2(mmin, mmax):
+    answer = []
+    f = 0
+
+    #Частные случаи - если начало диапазона <= 2 или 3
+    if mmin <=2:
+        answer.append(2)
+        answer.append(3)
+        mmin = 4
+    elif mmin<=3:
+        answer.append(3)
+        mmin = 4
+
+    #Проверка каждого числа из диапазона
+    for i in range(mmin, mmax+1):
+        f = 0
+        #Продолжаем проверку только для нечетных чисел
+        if i % 2 == 1:
+            #Списка простых чисел до mmin у нас нет, проверям нечетные делители начиная с 3;
+            #Если делитель есть - выход с изменением флага
+            for j in range(3, mmin, 2):
+                if i%j == 0:
+                    f = 1
+                    break
+
+            #Если флаг не менялся (т. е. делителей вне заданного диапазона не нашлось), то
+            #проверяем простые числа внутри диапазона (оно же answers[])
+            if f==0:
+                for j in answer:
+                    if i%j == 0:
+                        f = 1
+                        break
+            if f==0:
+                answer.append(i)
+    return answer, end-start
+
+def task4(string_list):
+    string_list.sort(key=len)                #Сортировка
+    desc_string_list = string_list[::-1]     #По убыванию
+    return string_list, desc_string_list
+
+class Point:
+    #Объявление
+    def __init__(self, x_coord, y_coord):
+        #Проверка значений на тип данных
+        if not (isinstance(x_coord, int) or isinstance(x_coord, float)):
+            raise TypeError
+        elif not (isinstance(y_coord, int) or isinstance(y_coord, float)):
+            raise TypeError
+        else:
+            self.x_coord = x_coord
+            self.y_coord = y_coord
+
+    #Вычисление расстояния между двумя точками
+    def count_distance(point1, point2):
+        return ((point1.x_coord-point2.x_coord)**2+(point1.y_coord-point2.y_coord)**2)**0.5
+
+    #Получение координат точки 
+    def get_coords(self):
+        return self.x_coord, self.y_coord
+
+    #Изменение координат точки
+    def rewrite_coords(self, x=None, y=None):
+        if x != None:
+            self.x_coord = x
+        if y != None:
+            self.y_coord = y
